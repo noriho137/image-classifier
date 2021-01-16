@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Image Classifier</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+<!--    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}">-->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script type="text/javascript" src="{% static 'js/barchart.js' %}"></script>
+<!--    <script type="text/javascript" src="{% static 'chart.js/dist/Chart.min.js' %}"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+</head>
+<body class="container">
+	<div class="card mt-4">
+		<div class="card-header">
+			<h1 class="display-4 text-center">Image Classifier</h1>
+		</div>
+		<div class="card-body">
+			<br>
+			<div>
+				<form method="post" enctype="multipart/form-data">
+					{% csrf_token %}
+					{{ form.as_p }}
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</form>
+			</div>
+			<br>
+			<div class="container">
+				{% if top_k_predictions %}
+				<div class="row">
+					<div class="col-lg-5 bg-light">
+						<div class="col">
+							<img class="img-fluid mx-auto d-block mt-4 mb-4" src="{{ obj.image.url }}" />
+							<table class="table">
+								<caption>
+									Prediction result
+								</caption>
+								<thead>
+									<tr>
+										<th>Rank</th>
+										<th>Label</th>
+										<th>Probability</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for prediction in top_k_predictions %}
+									<tr>
+										<td align="right">{{ forloop.counter }}</td>
+										<td>{{ prediction.label }}</td>
+										<td align="right">{{ prediction.probability | floatformat:3 }}</td>
+									</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="col-lg-7">
+						<div class="mt-4">
+							<canvas id="barChart"></canvas>
+						</div>
+					</div>
+				</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+	<script>
+		var ctx = document.getElementById('barChart');
+		var data = setData({{ top_k_predictions | safe }});
+		var options = setOptions();
+		var myBarChart = new Chart(ctx, {
+			type: 'horizontalBar',
+			data: data,
+			options: options
+		});
+	</script>
+</body>
+</html>
