@@ -20,28 +20,32 @@ class ClassifierView(generic.FormView):
     def form_valid(self, form):
         logger.info('form_valid start')
 
-        image = form.save(commit=False)
-        image.save()
-        logger.info('saved')
+        if self.request.is_ajax():
+            logger.info('ajax request')
 
-        max_id = ImageModel.objects.latest('id').id
-        obj = ImageModel.objects.get(id=max_id)
-        # super().form_valid(form)
-        # return super().form_valid(form)
+            image = form.save(commit=False)
+            image.save()
+            logger.info('saved')
 
-        top_k_predictions_tmp = predict(obj.image, k=settings.MAX_RANK)
-        logger.info(top_k_predictions_tmp)
+            max_id = ImageModel.objects.latest('id').id
+            obj = ImageModel.objects.get(id=max_id)
 
-        top_k_predictions = []
-        for prediction in top_k_predictions_tmp:
-            top_k_predictions.append({'label': prediction[1],
-                                      'probability': prediction[2]})
+            top_k_predictions_tmp = predict(obj.image, k=settings.MAX_RANK)
+            logger.info(top_k_predictions_tmp)
 
-        logger.info(self.template_name)
-        logger.info(form)
-        logger.info(obj.image.url)
-        logger.info(top_k_predictions)
+            top_k_predictions = []
+            for prediction in top_k_predictions_tmp:
+                top_k_predictions.append({'label': prediction[1],
+                                          'probability': float(prediction[2])})
 
-        return render(self.request, self.template_name,
-                      {'form': form, 'obj': obj,
-                       'top_k_predictions': top_k_predictions})
+            logger.info(self.template_name)
+            logger.info(form)
+            logger.info(obj.image.url)
+            logger.info(top_k_predictions)
+
+            return render(self.request, 'result.html',
+                          {'image_url': obj.image.url,
+                           'top_k_predictions': top_k_predictions})
+        else:
+            logger.info('not ajax request')
+            return super().form_valid(form)
