@@ -53,7 +53,8 @@ $('form').submit(function(event) {
         console.log('fail');
         console.log(jqXHR.status);
         console.log(textStatus);
-        console.log(errorThrown.message);
+        console.log(errorThrown);
+        alert(jqXHR.status + ' Error: ' + errorThrown);
     }).always(function() {
         console.log('always');
     });

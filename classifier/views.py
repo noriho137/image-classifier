@@ -1,6 +1,7 @@
 import logging
 
 from django.conf import settings
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
@@ -49,3 +50,14 @@ class ClassifierView(generic.FormView):
         else:
             logger.info('not ajax request')
             return super().form_valid(form)
+
+    def form_invalid(self, form):
+        logger.info('form_invalid start')
+        if self.request.is_ajax():
+            logger.info('ajax request')
+            response = HttpResponse({'error': 'Unprocessable Entity'})
+            response.status_code = 422
+            return response
+        else:
+            logger.info('not ajax request')
+            return super().form_invalid(form)
