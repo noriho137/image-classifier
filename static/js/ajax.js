@@ -47,14 +47,14 @@ $('form').submit(function(event) {
         timeout: 10000,
         dataType: 'text',
     }).done(function(response) {
-        console.log('done')
-        $('#result').html(response)
+        console.log('done');
+        $('#result').html(response);
     }).fail(function(jqXHR, textStatus, errorThrown) {
-        console.log('fail')
-        console.log(jqXHR.status)
-        console.log(textStatus)
-        console.log(errorThrown.message)
+        console.log('fail');
+        console.log(jqXHR.status);
+        console.log(textStatus);
+        console.log(errorThrown.message);
     }).always(function() {
-        console.log('always')
+        console.log('always');
     });
 });
