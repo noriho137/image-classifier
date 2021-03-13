@@ -19,7 +19,7 @@ $ git clone https://github.com/noriho137/image-classifier.git
 $ cd image-classifier/
 $ python -m venv {venv_name}
 $ {venv_name}/Scripts/activate.bat
-({venc_name}) $ pip install -r requirements.txt
+({venv_name}) $ pip install -r requirements.txt
 ```
 
 
@@ -53,7 +53,7 @@ https://s3.amazonaws.com/deep-learning-models/image-models/imagenet_class_index.
 Generate Django secret key by ```secrets.token_urlsafe```.
 
 ```bash
-$ python -c "import secrets; print(secrets.token_urlsafe(38))"
+({venv_name})$ python -c "import secrets; print(secrets.token_urlsafe(38))"
 ```
 
 
@@ -77,8 +77,8 @@ export MAX_RANK=5
 ## How to run
 
 ```bash
-$ python manage.py migrate
-$ python manage.py runserver
+({venv_name})$ python manage.py migrate
+({venv_name})$ python manage.py runserver
 ```
 
 Browse to http://127.0.0.1:8000/ .
