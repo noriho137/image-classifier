@@ -54,3 +54,24 @@ function setOptions() {
     };
     return options;
 }
+
+function drawChart(top_k_predictions) {
+    console.log('drawChart start');
+
+    var ctx = document.getElementById('barChart');
+    var data = setData(top_k_predictions);
+    var options = setOptions();
+
+    // set height according to the number of data
+    ctx.height = 18 * data.datasets[0]['data'].length + 60;
+
+    var myBarChart = new Chart(ctx, {
+        type: 'horizontalBar',
+        data: data,
+        options: options
+    });
+
+    $('#barChart').addClass('mt-4');
+
+    console.log('drawChart end');
+}

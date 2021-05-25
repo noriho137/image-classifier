@@ -1,8 +1,8 @@
+import json
 import logging
 
 from django.conf import settings
 from django.http import HttpResponse
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 
@@ -44,9 +44,9 @@ class ClassifierView(generic.FormView):
             logger.info(obj.image.url)
             logger.info(top_k_predictions)
 
-            return render(self.request, 'result.html',
-                          {'image_url': obj.image.url,
-                           'top_k_predictions': top_k_predictions})
+            data_json = json.dumps({'top_k_predictions': top_k_predictions,
+                                    'image_url': obj.image.url})
+            return HttpResponse(data_json, content_type='application/json')
         else:
             logger.info('not ajax request')
             return super().form_valid(form)
