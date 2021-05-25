@@ -46,6 +46,7 @@ function setOptions() {
                     fontSize: 14
                 },
                 ticks: {
+                    autoSkip: false,
                     fontSize: 14
                 }
             }]
