@@ -21,6 +21,8 @@ function setData(top_k_predictions) {
 
 function setOptions() {
     var options = {
+        responsive: true,
+        maintainAspectRatio: true,
         scales: {
             xAxes: [{
                 gridLines: {
