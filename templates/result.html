@@ -35,6 +35,7 @@
     var ctx = document.getElementById('barChart');
     var data = setData({{ top_k_predictions | safe }});
     var options = setOptions();
+    ctx.height = 18 * data.datasets[0]['data'].length + 60;
     var myBarChart = new Chart(ctx, {
         type: 'horizontalBar',
         data: data,
