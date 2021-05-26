@@ -65,7 +65,12 @@ function drawChart(top_k_predictions) {
     // set height according to the number of data
     ctx.height = 18 * data.datasets[0]['data'].length + 60;
 
-    var myBarChart = new Chart(ctx, {
+    // destroy chart instance if chart instance already exists
+    if (window.myBarChart) {
+        window.myBarChart.destroy();
+    }
+
+    window.myBarChart = new Chart(ctx, {
         type: 'horizontalBar',
         data: data,
         options: options

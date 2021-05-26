@@ -81,6 +81,7 @@ function showImage(image_url) {
 function createTable(top_k_predictions) {
     console.log('createTable start');
     var table = $('#rankingTable');
+    table.empty();
     table.append('<caption>Prediction result</caption>');
     table.append('<thead><th>Rank</th><th>Label</th><th>Probability</th></thead>');
     table.append('<tbody></tbody>');
